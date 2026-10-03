@@ -56,4 +56,13 @@ for arch in ['amd64', 'arm64']:
     assert labels['org.opencontainers.image.version'] == version
     assert labels['org.opencontainers.image.source'] == 'https://github.com/Uqda/Core'
     assert re.fullmatch(r'[a-f0-9]{40}', labels['org.opencontainers.image.revision'])
+gallery = re.findall(r'^  - (https://github.com/Uqda/Core/releases/download/umbrel-26\.0\.4-2/dashboard-(?:en|ar|mobile)\.png)$', manifest, re.M)
+assert len(gallery) == 3
+for url in gallery:
+    with urlopen(url, timeout=30) as response:
+        assert response.read(8) == b'\x89PNG\r\n\x1a\n'
+icon = re.search(r'^icon: (https://raw\.githubusercontent\.com/Uqda/Core/[a-f0-9]{40}/contrib/umbrel/web/icon\.svg)$', manifest, re.M)[1]
+with urlopen(icon, timeout=30) as response:
+    assert b'<svg' in response.read(1024)
 print('PASS: matching immutable pins, safe package boundaries, amd64/arm64 image digests and source labels')
+print('PASS: released screenshots and source-pinned icon are publicly reachable')

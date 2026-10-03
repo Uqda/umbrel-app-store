@@ -28,7 +28,7 @@ The container image is pinned by SHA256 digest and supports linux/amd64 and linu
 
 Automated native amd64/arm64 Docker/TUN, browser, package and two-node TCP/UDP
 checks passed. The official Umbrel 2.0 development app manager passed installation,
-restart, previous-wrapper-to-new-source upgrade and uninstall/fresh-install tests.
+restart, previous-public-wrapper-to-new-public-wrapper upgrade and uninstall/fresh-install tests.
 Production OS boot/reboot, backup restoration, full owner-browser gateway flow,
 external storage and Raspberry Pi firmware remain unverified. A production VM
 can test these without buying hardware; development Docker is not OS certification.
@@ -58,7 +58,13 @@ browser passwords in transit. Uqda does not provide anonymity.
 Source and implementation: https://github.com/Uqda/Core/pull/22
 
 Setup, permissions, backups and validation limits:
-https://github.com/Uqda/Core/blob/877ef28a0f465b2dea0effa471372a8751d0904a/docs/umbrel.md
+https://github.com/Uqda/Core/blob/9287c1efb2cd9cfd782cf68498ef900ef63911b7/docs/umbrel.md
+
+Release notes, installable ZIP, checksums and actual dashboard screenshots:
+https://github.com/Uqda/Core/releases/tag/umbrel-26.0.4-2
+
+Exact published-image lifecycle and previous-to-current upgrade evidence:
+https://github.com/Uqda/Core/actions/runs/37133772817
 
 The Core service uses host networking, NET_ADMIN and /dev/net/tun to create
 the host IPv6 interface. The dashboard does not receive these privileges.
