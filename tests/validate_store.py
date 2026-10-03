@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 manifest = (ROOT / 'uqda-network/umbrel-app.yml').read_text()
 compose = (ROOT / 'uqda-network/docker-compose.yml').read_text()
 version = re.search(r'^version: "([^"]+)"$', manifest, re.M)[1]
-assert re.fullmatch(r'26\.0\.4-umbrel\.\d+', version)
+assert re.fullmatch(r'\d+\.\d+\.\d+-umbrel\.[1-9]\d*', version)
 assert 'id: uqda-network\n' in manifest
 refs = re.findall(r'^\s+image: (\S+)$', compose, re.M)
 assert len(refs) == 2 and refs[0] == refs[1]
@@ -56,7 +56,9 @@ for arch in ['amd64', 'arm64']:
     assert labels['org.opencontainers.image.version'] == version
     assert labels['org.opencontainers.image.source'] == 'https://github.com/Uqda/Core'
     assert re.fullmatch(r'[a-f0-9]{40}', labels['org.opencontainers.image.revision'])
-gallery = re.findall(r'^  - (https://github.com/Uqda/Core/releases/download/umbrel-26\.0\.4-2/dashboard-(?:en|ar|mobile)\.png)$', manifest, re.M)
+core_version, wrapper_revision = version.split('-umbrel.', 1)
+release_tag = 'umbrel-' + core_version + '-' + wrapper_revision
+gallery = re.findall(r'^  - (https://github.com/Uqda/Core/releases/download/' + re.escape(release_tag) + r'/dashboard-(?:en|ar|mobile)\.png)$', manifest, re.M)
 assert len(gallery) == 3
 for url in gallery:
     with urlopen(url, timeout=30) as response:
